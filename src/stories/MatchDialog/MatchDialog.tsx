@@ -4,17 +4,9 @@ import {
     DialogActions,
     Box,
     Typography,
-    Slide,
 } from '@mui/material'
-import React from 'react'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import { ActionButton } from '../ActionButton/ActionButton'
-
-const Transition = function Transition(
-    { ref, ...props }
-) {
-    return <Slide direction="up" ref={ref} {...props} />
-}
 
 export interface MatchDialogProps {
     isOpen: boolean
@@ -26,7 +18,6 @@ export const MatchDialog = ({ isOpen, onClose }: MatchDialogProps) => {
         <Dialog
             open={isOpen}
             onClose={onClose}
-            slots={{ transition: Transition }}
             slotProps={{
                 paper: {
                     sx: {
