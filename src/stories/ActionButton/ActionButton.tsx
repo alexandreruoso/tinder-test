@@ -26,7 +26,7 @@ export const ActionButton = ({
 }: ActionButtonProps) => {
     return (
         <Button
-            variant="outlined"
+            variant="contained"
             size="large"
             color={color}
             onClick={onClick}
