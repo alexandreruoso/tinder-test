@@ -28,6 +28,9 @@ jobs:
             - name: Lint Code
               run: npm run lint
 
+            - name: Run Tests
+              run: npm run test:ci
+
             - name: Log in to the Container registry
               uses: docker/login-action@v3
               with:
@@ -36,7 +39,7 @@ jobs:
                   password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Build and push Docker image
-              id: build_and_push # Give the step an ID to reference it
+              id: build_and_push
               uses: docker/build-push-action@v5
               with:
                   context: .
@@ -47,5 +50,5 @@ jobs:
               uses: anchore/scan-action@v3
               with:
                   image: 'ghcr.io/${{ github.repository }}:${{ github.sha }}'
-                  fail-build: true # Fails the build if vulnerabilities are found
-                  severity-cutoff: high # Fails on 'high' or 'critical' vulnerabilities
+                  fail-build: true
+                  severity-cutoff: high

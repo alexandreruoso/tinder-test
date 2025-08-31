@@ -4,6 +4,7 @@ import eslintReact from '@eslint-react/eslint-plugin'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config({
+    ignores: ['.storybook/**'],
     files: ['**/*.ts', '**/*.tsx'],
     settings: {
         'react-x': {
@@ -28,7 +29,6 @@ export default tseslint.config({
         parserOptions: {
             // Enable project service for better TypeScript integration
             projectService: true,
-            tsconfigRootDir: import.meta.dirname,
         },
     },
 
