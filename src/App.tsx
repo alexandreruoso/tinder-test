@@ -1,40 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { CssBaseline, Box } from '@mui/material'
+import { SwipePage } from './pages/SwipePage'
 
+/**
+ * The root component of the application.
+ * It centers a portrait-oriented "app frame" in the viewport.
+ */
 function App() {
-    const [count, setCount] = useState(0)
-
     return (
         <>
-            <div>
-                <a href="https://vite.dev" target="_blank" rel="noreferrer">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank" rel="noreferrer">
-                    <img
-                        src={reactLogo}
-                        className="logo react"
-                        alt="React logo"
-                    />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button
-                    onClick={() => setCount((count) => count + 1)}
-                    type="button"
-                >
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
+            <CssBaseline />
+            {/* Viewport container to center the app frame */}
+            <Box
+                sx={{
+                    display: 'grid',
+                    placeItems: 'center', // This is a shorthand for both horizontal and vertical centering
+                    minHeight: '100vh',
+                    width: '100vw', // Ensure the box takes the full viewport width
+                }}
+            >
+                <SwipePage />
+            </Box>
         </>
     )
 }
