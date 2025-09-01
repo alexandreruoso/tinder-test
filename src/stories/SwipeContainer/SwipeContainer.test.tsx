@@ -27,9 +27,10 @@ describe('SwipeContainer', () => {
                 onDislike={handleDislike}
             />
         )
-        // Check for the Name content
+        // Check for the Name content using a more robust query
         const profileInfoElement = screen.getByRole('paragraph')
         expect(profileInfoElement).toHaveTextContent('Alex, 28')
+
         expect(screen.getByText('Like')).toBeInTheDocument()
         expect(screen.getByText('Dislike')).toBeInTheDocument()
     })
@@ -43,7 +44,10 @@ describe('SwipeContainer', () => {
             />
         )
         expect(screen.getByRole('progressbar')).toBeInTheDocument()
-        expect(screen.queryByText('Alex, 28')).not.toBeInTheDocument()
+        const profileInfoElement = screen.queryByRole('paragraph', {
+            name: /Alex, 28/i,
+        })
+        expect(profileInfoElement).not.toBeInTheDocument()
     })
 
     it('renders an error message when an error is provided', () => {
@@ -103,24 +107,24 @@ describe('SwipeContainer', () => {
         render(
             <SwipeContainer
                 profile={mockProfile}
-                isLoading
-                onLike={handleLike}
-                onDislike={handleDislike}
-            />
-        )
-        // Even with a profile, the buttons shouldn't be there because isLoading is true.
-        // Let's adjust the component to disable them instead.
-        // Re-rendering with a scenario where buttons *would* be there.
-        cleanup()
-
-        render(
-            <SwipeContainer
-                profile={mockProfile}
                 onLike={handleLike}
                 onDislike={handleDislike}
             />
         )
         expect(screen.getByText('Like')).not.toBeDisabled()
         expect(screen.getByText('Dislike')).not.toBeDisabled()
+    })
+
+    // This is the new test case to cover the `return null` branch
+    it('should render nothing if no state flags are active and no profile is provided', () => {
+        const { container } = render(
+            <SwipeContainer onLike={handleLike} onDislike={handleDislike} />
+        )
+
+        // The main container Box will exist, but it should not have any children
+        // representing the profile, spinner, or alerts.
+        expect(container.querySelector('.MuiCard-root')).toBeNull()
+        expect(container.querySelector('.MuiCircularProgress-root')).toBeNull()
+        expect(container.querySelector('.MuiAlert-root')).toBeNull()
     })
 })

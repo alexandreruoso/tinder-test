@@ -1,4 +1,4 @@
-import { CssBaseline, Box } from '@mui/material'
+import { CssBaseline, Box, Typography } from '@mui/material'
 import { SwipePage } from './pages/SwipePage'
 
 /**
@@ -18,6 +18,14 @@ function App() {
                     width: '100vw',
                 }}
             >
+                {' '}
+                {/* visually hidden header to the page */}
+                <Typography
+                    variant="h1"
+                    sx={{ position: 'absolute', left: -9999 }}
+                >
+                    Tinder Clone
+                </Typography>
                 <SwipePage />
             </Box>
         </>
