@@ -4,7 +4,7 @@ import eslintReact from '@eslint-react/eslint-plugin'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config({
-    ignores: ['.storybook/**'],
+    ignores: ['.storybook/**', '**/*.mockServiceWorker.js'],
     files: ['**/*.ts', '**/*.tsx'],
     settings: {
         'react-x': {

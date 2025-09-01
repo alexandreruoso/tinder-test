@@ -6,8 +6,37 @@ import App from './App.tsx'
 // Set the title of the document
 document.title = import.meta.env.VITE_APP_TITLE || 'Default App Title'
 
-createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-        <App />
-    </StrictMode>
-)
+/**
+ * Starts the MSW in a development environment.
+ */
+async function enableMocking() {
+    // Use Vite's `import.meta.env.DEV` to check for development mode.
+    if (!import.meta.env.DEV) {
+        return
+    }
+
+    const { worker } = await import('./mocks/browser')
+
+    // `onunhandledrejection` is a common issue that happens when mocking.
+    // We recommend adding this handler to aid in debugging.
+    window.addEventListener('unhandledrejection', (event) => {
+        event.promise.catch((error) => {
+            console.error('Unhandled rejection:', error)
+        })
+    })
+
+    // Start the service worker with a quiet option to avoid spamming the console.
+    return worker.start({
+        onUnhandledRequest: 'bypass',
+        quiet: true,
+    })
+}
+
+// Enable mocking, then render the application.
+enableMocking().then(() => {
+    createRoot(document.getElementById('root')!).render(
+        <StrictMode>
+            <App />
+        </StrictMode>
+    )
+})
