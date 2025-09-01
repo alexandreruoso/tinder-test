@@ -13,9 +13,9 @@ function App() {
             <Box
                 sx={{
                     display: 'grid',
-                    placeItems: 'center', // This is a shorthand for both horizontal and vertical centering
+                    placeItems: 'center',
                     minHeight: '100vh',
-                    width: '100vw', // Ensure the box takes the full viewport width
+                    width: '100vw',
                 }}
             >
                 <SwipePage />

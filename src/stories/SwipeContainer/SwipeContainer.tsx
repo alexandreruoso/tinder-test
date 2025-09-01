@@ -91,7 +91,7 @@ export const SwipeContainer = ({
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: 2,
+                paddingBottom: 2,
                 border: '1px solid #ddd',
                 borderRadius: '8px',
                 gap: 2,
