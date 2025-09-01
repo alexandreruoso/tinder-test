@@ -147,7 +147,7 @@ Submits a "like" action for a specific user profile.
   The response indicates whether the "like" resulted in a mutual match.
     ```json
     {
-        "match": boolean
+        "match": true
     }
     ```
 
