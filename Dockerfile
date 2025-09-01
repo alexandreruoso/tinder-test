@@ -1,5 +1,4 @@
 # Stage 1: Build the application
-# Use a specific Node.js version for reproducibility
 FROM node:20-alpine AS build
 
 # Set the working directory
