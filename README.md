@@ -103,8 +103,6 @@ npm run storybook
 
 The Storybook will be available at http://localhost:6006.
 
-````
-
 ## 📝 Client-Backend REST API Contract
 
 The front-end application expects the following REST API to be available. All request and response bodies are in JSON format.
@@ -153,7 +151,6 @@ Submits a "like" action for a specific user profile.
     }
     ```
 
-
 ---
 
 #### 3. Dislike a Profile
@@ -167,4 +164,6 @@ Submits a "dislike" action for a specific user profile. This action simply moves
 - **Request Body:** (empty)
 - **Success Response (200 OK):**
 
-````
+```
+
+```
