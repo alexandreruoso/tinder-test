@@ -1,6 +1,21 @@
+# Dependencies
 node_modules
-npm-debug.log
+npm-debug.log*
+
+# Build outputs
 dist
-.env
+
+# Version control
 .git
 .gitignore
+
+# Environment files - but keep the specific ones we need
+.env
+.env.local
+.env.*.local
+
+# Keep .env.development, .env.production, .env.staging, .env.example
+# !.env.development
+# !.env.production
+# !.env.staging
+# !.env.example

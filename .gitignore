@@ -28,5 +28,8 @@ coverage
 # Environment variables
 .env.*
 !/.env.example
+# For a simple test project with no sensitive data, not a problem to commit the production environment variables
+!/.env.production
+!/.env.development
 *storybook.log
 storybook-static

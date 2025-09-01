@@ -3,14 +3,13 @@
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 
-const environments = ['development', 'staging', 'production']
+// Only validate environments that actually exist
+const environments = ['development', 'production']
+
+// Only require variables that are actually used in the code
 const requiredVars = [
-    'VITE_APP_TITLE',
-    'VITE_API_BASE_URL',
-    'VITE_BASE_URL',
-    'VITE_APP_VERSION',
-    'VITE_APP_ENVIRONMENT',
-    'VITE_APP_DEBUG_MODE',
+    'VITE_APP_TITLE', // Used in src/main.tsx
+    'VITE_API_URL', // Used in src/api/client.ts (NOT VITE_API_BASE_URL)
 ]
 
 function validateEnvironmentFile(envName) {
