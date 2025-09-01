@@ -1,11 +1,18 @@
 # Tinder-Like Swiping Prototype (React Test Assignment)
 
-This project is a React implementation of a Tinder-like user interface for liking or disliking profiles. It was created as a test assignment for a React developer position.
+This project is a fully-tested, production-ready prototype of a Tinder-like swiping application. It is built with React, TypeScript, Vite, and Material-UI.
 
-The application is built with React, TypeScript, and Vite, uses Material-UI for its component library, and is fully tested with Vitest and React Testing Library to ensure 100% test coverage.
+It features a complete local development environment using Mock Service Worker (MSW), comprehensive unit tests with 100% coverage via Vitest, and end-to-end tests with Playwright.
 
 ## Features
 
+- Modern Tech Stack: React, TypeScript, Vite, and MUI.
+- Mocked API: Uses Mock Service Worker (MSW) for a stable and predictable development experience without a live backend.
+- Fully Tested:
+    - 100% Unit Test Coverage with Vitest & React Testing Library.
+- Component Library: All UI components are documented and viewable in Storybook.
+- Production Ready: Includes a Dockerfile for building a lightweight, production-ready
+- Nginx container.
 - View user profiles one by one.
 - "Like" or "Dislike" a profile.
 - Receive a "match" notification for mutual likes.
@@ -19,6 +26,7 @@ The application is built with React, TypeScript, and Vite, uses Material-UI for 
 
 - Node.js (v20.x or higher)
 - npm (v10.x or higher)
+- Docker (for running the production build)
 
 ### Installation & Setup
 
@@ -45,15 +53,24 @@ The application is built with React, TypeScript, and Vite, uses Material-UI for 
     VITE_API_BASE_URL=http://localhost:3001/api
     ```
 
-### Running in Development Mode
+### Running in Development Mode (with Mock API)
 
-To start the application locally with hot-reloading:
+This command starts the Vite development server with MSW enabled. The application will be available at http://localhost:5173.
 
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`.
+### Running in Production Mode (with Docker)
+
+```bash
+# 1. Build the image
+docker build -t tinder-test-app .
+
+# 2. Run the container
+docker run -d -p 8080:80 --name tinder-test-container tinder-test-app
+
+```
 
 ---
 
@@ -64,15 +81,29 @@ This project is configured to have 100% test coverage.
 - **Run tests once:**
 
     ```bash
-    npm test
+    npm test:ci
     ```
 
 - **Run tests in watch mode:**
     ```bash
-    npm run test:watch
+    npm run test
+    ```
+- **Run tests with coverage:**
+    ```bash
+    npm run test:coverage
     ```
 
 ---
+
+## 📖 Viewing Storybook
+
+```bash
+npm run storybook
+```
+
+The Storybook will be available at http://localhost:6006.
+
+````
 
 ## 📝 Client-Backend REST API Contract
 
@@ -82,7 +113,7 @@ The front-end application expects the following REST API to be available. All re
 
 #### 1. Get Next Profile
 
-Fetches the next available user profile to be displayed.
+Fetches the next available user profile. Returns a 404 Not Found when no more profiles are available.
 
 - **URL:** `/profiles/next`
 - **Method:** `GET`
@@ -118,15 +149,10 @@ Submits a "like" action for a specific user profile.
   The response indicates whether the "like" resulted in a mutual match.
     ```json
     {
-        "match": true
+        "match": boolean
     }
     ```
-    _or_
-    ```json
-    {
-        "match": false
-    }
-    ```
+
 
 ---
 
@@ -140,8 +166,5 @@ Submits a "dislike" action for a specific user profile. This action simply moves
     - `profileId` (string, required): The ID of the profile being disliked.
 - **Request Body:** (empty)
 - **Success Response (200 OK):**
-    ```json
-    {
-        "success": true
-    }
-    ```
+
+````
