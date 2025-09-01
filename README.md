@@ -162,8 +162,4 @@ Submits a "dislike" action for a specific user profile. This action simply moves
 - **URL Params:**
     - `profileId` (string, required): The ID of the profile being disliked.
 - **Request Body:** (empty)
-- **Success Response (200 OK):**
-
-```
-
-```
+- **Success Response (200 OK)**
