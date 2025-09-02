@@ -4,6 +4,7 @@ import Card from '@mui/material/Card'
 import Box from '@mui/material/Box'
 import { Avatar } from '../Avatar/Avatar'
 import { ProfileInfo } from '../ProfileInfo/ProfileInfo'
+import type { ProfileDto } from '../../types/api'
 
 const StyledCard = styled(Card)(({ theme }) => ({
     width: '100%',
@@ -29,22 +30,16 @@ const StyledInfoOverlay = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
 }))
 
-export interface ProfileData {
-    name: string
-    age: number
-    imageUrl?: string
-}
-
 export interface ProfileCardProps {
-    profile: ProfileData
+    profile: ProfileDto
 }
 
 export const ProfileCard = memo(({ profile }: ProfileCardProps) => {
-    const { name, age, imageUrl } = profile
+    const { name, age, imageId } = profile
 
     return (
         <StyledCard data-testid="profile-card">
-            <Avatar imageUrl={imageUrl} altText={`Profile of ${name}`} />
+            <Avatar imageId={imageId} altText={`Profile of ${name}`} />
             <StyledInfoOverlay>
                 <ProfileInfo name={name} age={age} />
             </StyledInfoOverlay>

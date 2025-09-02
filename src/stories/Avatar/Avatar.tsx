@@ -22,12 +22,12 @@ const StyledImage = styled('img')({
 })
 
 export interface AvatarProps {
-    imageUrl?: string
+    imageId?: string
     altText: string
 }
 
-export const Avatar = ({ imageUrl, altText }: AvatarProps) => {
-    const status = useImageStatus(imageUrl)
+export const Avatar = ({ imageId, altText }: AvatarProps) => {
+    const status = useImageStatus(imageId)
 
     return (
         <StyledAvatarContainer>
@@ -42,7 +42,7 @@ export const Avatar = ({ imageUrl, altText }: AvatarProps) => {
             )}
 
             {status === 'loaded' && (
-                <StyledImage src={imageUrl} alt={altText} loading="lazy" />
+                <StyledImage src={imageId} alt={altText} loading="lazy" />
             )}
         </StyledAvatarContainer>
     )

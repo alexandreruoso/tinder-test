@@ -7,7 +7,7 @@ export interface ProfileDto {
     id: string
     name: string
     age: number
-    imageUrl?: string
+    imageId?: string
 }
 
 /**

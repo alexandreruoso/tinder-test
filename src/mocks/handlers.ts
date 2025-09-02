@@ -1,30 +1,31 @@
 import { http, HttpResponse, delay } from 'msw'
+import type { ProfileDto } from '../types/api'
 
 // --- Mock Data ---
-const profiles = [
+const profiles: ProfileDto[] = [
     {
         id: '1',
         name: 'Jessica',
         age: 23,
-        imageUrl: 'https://i.pravatar.cc/400?u=woman',
+        imageId: '64',
     },
     {
         id: '2',
         name: 'Ben',
         age: 27,
-        imageUrl: 'https://i.pravatar.cc/400?u=jefferson',
+        imageId: '237',
     },
     {
         id: '3',
         name: 'Chloe',
         age: 22,
-        imageUrl: 'https://i.pravatar.cc/400?u=chloe',
+        imageId: '177',
     },
     {
         id: '4',
         name: 'David',
         age: 25,
-        imageUrl: undefined,
+        imageId: undefined,
     },
 ]
 
@@ -59,7 +60,7 @@ export const handlers = [
 
         // Logic to decide if it's a match
         // For this demo, let's say Ben is a guaranteed match
-        const isMatch = profiles[currentIndex]?.name === 'Chloe'
+        const isMatch = profiles[currentIndex]?.id === '1'
         currentIndex++ // Move to the next profile after the action
 
         return HttpResponse.json({ match: isMatch })

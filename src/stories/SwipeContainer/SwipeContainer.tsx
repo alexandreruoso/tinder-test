@@ -5,16 +5,10 @@ import { Spinner } from '../Spinner/Spinner'
 import { AlertMessage } from '../AlertMessage/AlertMessage'
 import { ProfileCard } from '../ProfileCard/ProfileCard'
 import { SwipeActions } from '../SwipeAction/SwipeActions'
-
-export interface Profile {
-    id: string
-    name: string
-    age: number
-    imageUrl?: string
-}
+import type { ProfileDto } from '../../types/api'
 
 export interface SwipeContainerProps {
-    profile?: Profile
+    profile?: ProfileDto
     onLike: (profileId: string) => void
     onDislike: (profileId: string) => void
     isLoading?: boolean
