@@ -1,4 +1,6 @@
-import { CssBaseline, Box, Typography } from '@mui/material'
+import CssBaseline from '@mui/material/CssBaseline'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import { SwipePage } from './pages/SwipePage'
 import { ThemeProvider } from '@mui/material/styles'
 import { theme } from './theme'

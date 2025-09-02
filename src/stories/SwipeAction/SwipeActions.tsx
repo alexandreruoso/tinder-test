@@ -1,4 +1,6 @@
-import { Stack, useMediaQuery, useTheme } from '@mui/material'
+import Stack from '@mui/material/Stack'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { ActionButton } from '../ActionButton/ActionButton'

@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 export interface AvatarProps {
     imageUrl?: string
@@ -29,6 +30,7 @@ export const Avatar = ({ imageUrl, altText }: AvatarProps) => {
                         height: '100%',
                         objectFit: 'cover',
                     }}
+                    loading="lazy"
                 />
             ) : (
                 <Typography variant="caption" color="textSecondary">

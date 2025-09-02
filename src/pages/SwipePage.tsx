@@ -1,7 +1,8 @@
 import { useSwipeApi } from '../hooks/useSwipeApi'
 import { SwipeContainer } from '../stories/SwipeContainer/SwipeContainer'
 import { MatchDialog } from '../stories/MatchDialog/MatchDialog'
-import { Box, Container } from '@mui/material'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 
 export const SwipePage = () => {
     const {

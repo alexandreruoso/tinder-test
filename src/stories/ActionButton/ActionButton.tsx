@@ -1,4 +1,5 @@
-import { Button, type SvgIconTypeMap } from '@mui/material'
+import Button from '@mui/material/Button'
+import { type SvgIconTypeMap } from '@mui/material/SvgIcon'
 import { type OverridableComponent } from '@mui/material/OverridableComponent'
 
 export interface ActionButtonProps {

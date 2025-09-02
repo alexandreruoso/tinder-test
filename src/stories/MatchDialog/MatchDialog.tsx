@@ -1,14 +1,12 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogActions,
-    Box,
-    Typography,
-    useTheme,
-    useMediaQuery,
-} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import { ActionButton } from '../ActionButton/ActionButton'
+import { useTheme } from '@mui/material/styles'
 
 export interface MatchDialogProps {
     isOpen: boolean

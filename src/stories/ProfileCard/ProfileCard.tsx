@@ -1,4 +1,5 @@
-import { Card, Box } from '@mui/material'
+import Card from '@mui/material/Card'
+import Box from '@mui/material/Box'
 import { Avatar } from '../Avatar/Avatar'
 import { ProfileInfo } from '../ProfileInfo/ProfileInfo'
 

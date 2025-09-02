@@ -1,4 +1,6 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { Spinner } from '../Spinner/Spinner'
 import { AlertMessage } from '../AlertMessage/AlertMessage'
 import { ProfileCard } from '../ProfileCard/ProfileCard'
