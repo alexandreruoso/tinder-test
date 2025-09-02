@@ -20,6 +20,12 @@ const profiles = [
         age: 22,
         imageUrl: 'https://i.pravatar.cc/400?u=chloe',
     },
+    {
+        id: '4',
+        name: 'David',
+        age: 25,
+        imageUrl: undefined,
+    },
 ]
 
 let currentIndex = 0
