@@ -1,5 +1,6 @@
 import { memo, useCallback } from 'react'
 import Box from '@mui/material/Box'
+import { styled } from '@mui/material/styles'
 import { Spinner } from '../Spinner/Spinner'
 import { AlertMessage } from '../AlertMessage/AlertMessage'
 import { ProfileCard } from '../ProfileCard/ProfileCard'
@@ -21,6 +22,51 @@ export interface SwipeContainerProps {
     isFinished?: boolean
     isMobile: boolean // Receives isMobile as a prop
 }
+
+const StyledSwipeContainer = styled(Box, {
+    shouldForwardProp: (prop) => prop !== 'isMobile',
+})<Pick<SwipeContainerProps, 'isMobile'>>(({ theme, isMobile }) => ({
+    width: '100%',
+    height: 'auto',
+    aspectRatio: '3/4',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '1px solid #ddd',
+    gap: theme.spacing(2),
+    margin: 'auto',
+
+    [theme.breakpoints.up('sm')]: {
+        width: '400px',
+        maxWidth: '400px',
+        height: '500px',
+        borderRadius: '12px',
+        gap: theme.spacing(2),
+        margin: 0,
+    },
+
+    [theme.breakpoints.up('md')]: {
+        width: '450px',
+        maxWidth: '450px',
+        height: '550px',
+    },
+
+    [theme.breakpoints.up('lg')]: {
+        width: '500px',
+        maxWidth: '500px',
+        height: '600px',
+    },
+
+    [theme.breakpoints.up('xl')]: {
+        height: '650px',
+    },
+    // Style is now directly driven by the isMobile prop
+    padding: isMobile ? theme.spacing(1) : 0,
+    paddingBottom: isMobile ? theme.spacing(1) : theme.spacing(2),
+    boxShadow: isMobile ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
+    borderRadius: isMobile ? '8px' : '12px',
+}))
 
 export const SwipeContainer = memo(
     ({
@@ -46,7 +92,7 @@ export const SwipeContainer = memo(
         }, [profile, onDislike])
 
         const renderContent = () => {
-            if (isLoading) {
+            if (isLoading && !profile) {
                 return <Spinner />
             }
             if (error) {
@@ -63,8 +109,8 @@ export const SwipeContainer = memo(
             if (profile) {
                 return (
                     <>
+                        {isLoading && <Spinner />}
                         <ProfileCard profile={profile} />
-                        {/* The isMobile prop is passed down to SwipeActions */}
                         <SwipeActions
                             onLike={handleLike}
                             onDislike={handleDislike}
@@ -78,44 +124,9 @@ export const SwipeContainer = memo(
         }
 
         return (
-            <Box
-                sx={{
-                    width: {
-                        xs: '100%',
-                        sm: '400px',
-                        md: '450px',
-                        lg: '500px',
-                    },
-                    maxWidth: {
-                        xs: '345px',
-                        sm: '400px',
-                        md: '450px',
-                        lg: '500px',
-                    },
-                    height: {
-                        xs: '450px',
-                        sm: '500px',
-                        md: '550px',
-                        lg: '600px',
-                        xl: '650px',
-                    },
-                    aspectRatio: '3/4',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    paddingBottom: { xs: 1, sm: 2 },
-                    border: '1px solid #ddd',
-                    borderRadius: { xs: '8px', sm: '12px' },
-                    gap: { xs: 1, sm: 2 },
-                    margin: { xs: 'auto', sm: 0 },
-                    // Style is now directly driven by the isMobile prop
-                    padding: isMobile ? 1 : 0,
-                    boxShadow: isMobile ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
-                }}
-            >
+            <StyledSwipeContainer isMobile={isMobile}>
                 {renderContent()}
-            </Box>
+            </StyledSwipeContainer>
         )
     }
 )

@@ -43,7 +43,7 @@ export const ProfileCard = memo(({ profile }: ProfileCardProps) => {
     const { name, age, imageUrl } = profile
 
     return (
-        <StyledCard>
+        <StyledCard data-testid="profile-card">
             <Avatar imageUrl={imageUrl} altText={`Profile of ${name}`} />
             <StyledInfoOverlay>
                 <ProfileInfo name={name} age={age} />

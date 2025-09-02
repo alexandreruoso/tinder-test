@@ -3,8 +3,6 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { SwipeContainer, type Profile } from './SwipeContainer'
 
-// The useMediaQuery mock is no longer needed as we pass the `isMobile` prop directly.
-
 const mockProfile: Profile = {
     id: 'user-123',
     name: 'Alex',
@@ -103,6 +101,63 @@ describe('SwipeContainer', () => {
             )
             await userEvent.click(screen.getByText('Dislike'))
             expect(handleDislike).toHaveBeenCalledWith(mockProfile.id)
+        })
+
+        it('renders null if no state flags or profile are provided', () => {
+            const { container } = render(
+                <SwipeContainer
+                    onLike={handleLike}
+                    onDislike={handleDislike}
+                    isMobile={isMobile}
+                />
+            )
+            expect(container.querySelector('.MuiCard-root')).toBeNull()
+        })
+
+        it('renders a spinner when loading a new profile', () => {
+            render(
+                <SwipeContainer
+                    profile={mockProfile}
+                    isLoading
+                    onLike={handleLike}
+                    onDislike={handleDislike}
+                    isMobile={false}
+                />
+            )
+
+            // Assert that the spinner is visible
+            const spinner = screen.getByRole('progressbar')
+            expect(spinner).toBeInTheDocument()
+            expect(spinner).toHaveAttribute('aria-label', 'Loading...')
+
+            // Assert that the profile card and actions are visible
+            const profileCard = screen.getByTestId('profile-card')
+            const swipeActions = screen.getByTestId('swipe-actions')
+            expect(profileCard).toBeInTheDocument()
+            expect(swipeActions).toBeInTheDocument()
+            expect(profileCard).toHaveTextContent('Alex, 28')
+            expect(swipeActions).toHaveTextContent('Like')
+            expect(swipeActions).toHaveTextContent('Dislike')
+        })
+
+        it('shows profile when not loading', () => {
+            render(
+                <SwipeContainer
+                    profile={mockProfile}
+                    isLoading={false}
+                    onLike={handleLike}
+                    onDislike={handleDislike}
+                    isMobile={false}
+                />
+            )
+            const profileCard = screen.getByTestId('profile-card')
+            expect(profileCard).toBeInTheDocument()
+            expect(profileCard).toHaveTextContent('Alex, 28')
+
+            const swipeActions = screen.getByTestId('swipe-actions')
+            expect(swipeActions).toBeInTheDocument()
+            expect(swipeActions).toHaveTextContent('Like')
+            expect(swipeActions).toHaveTextContent('Dislike')
         })
 
         it('renders null if no state flags or profile are provided', () => {

@@ -24,6 +24,7 @@ export const SwipeActions = memo(
     ({ onLike, onDislike, disabled = false, isMobile }: SwipeActionsProps) => {
         return (
             <StyledActionsStack
+                data-testid="swipe-actions"
                 direction="row"
                 spacing={{ xs: 1, sm: 2 }}
                 justifyContent="center"

@@ -1,6 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import { SwipePage } from './pages/SwipePage'
 import { ThemeProvider } from '@mui/material/styles'
 import { theme } from './theme'
@@ -18,14 +17,8 @@ function App() {
                     minHeight: '100vh',
                     width: '100vw',
                 }}
+                data-testid="app-container"
             >
-                {/* visually hidden header to the page */}
-                <Typography
-                    variant="h1"
-                    sx={{ position: 'absolute', left: -9999 }}
-                >
-                    Tinder Clone
-                </Typography>
                 <ErrorBoundary>
                     <SwipePage />
                 </ErrorBoundary>

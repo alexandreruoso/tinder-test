@@ -25,9 +25,7 @@ describe('App', () => {
         render(<App />)
 
         // Assert: Check that the main app header is visible
-        expect(
-            screen.getByRole('heading', { name: /Tinder Clone/i })
-        ).toBeInTheDocument()
+        expect(screen.getByTestId('app-container')).toBeInTheDocument()
 
         // Assert: Check that the loading spinner is rendered because our mocked hook
         // returns isLoading: true

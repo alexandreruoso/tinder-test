@@ -1,3 +1,4 @@
+import { Dialog, DialogContent } from '@mui/material'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 export interface SpinnerProps {
@@ -6,14 +7,13 @@ export interface SpinnerProps {
 
 export const Spinner = ({ size = 40 }: SpinnerProps) => {
     return (
-        <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="100%"
-            width="100%"
-        >
-            <CircularProgress size={size} />
-        </Box>
+        <Dialog open={true}>
+            <DialogContent>
+                <CircularProgress size={size} aria-label="Loading..." />
+                <Box component="span" role="status" aria-live="polite" hidden>
+                    Loading...
+                </Box>
+            </DialogContent>
+        </Dialog>
     )
 }
