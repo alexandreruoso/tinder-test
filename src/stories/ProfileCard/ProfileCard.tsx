@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Card from '@mui/material/Card'
 import Box from '@mui/material/Box'
 import { Avatar } from '../Avatar/Avatar'
@@ -13,7 +14,9 @@ export interface ProfileCardProps {
     profile: ProfileData
 }
 
-export const ProfileCard = ({ profile }: ProfileCardProps) => {
+// By wrapping the component in `memo`, we ensure it only re-renders
+// if the `profile` prop has actually changed.
+export const ProfileCard = memo(({ profile }: ProfileCardProps) => {
     const { name, age, imageUrl } = profile
 
     return (
@@ -43,4 +46,4 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             </Box>
         </Card>
     )
-}
+})

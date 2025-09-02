@@ -41,36 +41,47 @@ export const useSwipeApi = () => {
         fetchNextProfile()
     }, [fetchNextProfile])
 
-    const likeProfile = async (profileId: string) => {
-        try {
-            const response = await apiClient.post<LikeResponseDto>(
-                `/profiles/${profileId}/like`
-            )
-            if (response.data.match) {
-                setIsMatch(true)
-            } else {
-                fetchNextProfile()
+    // Wrap `likeProfile` in `useCallback`. It depends on `fetchNextProfile`,
+    // so we add that to the dependency array. The function will only be
+    // re-created if `fetchNextProfile` changes (which it won't).
+    const likeProfile = useCallback(
+        async (profileId: string) => {
+            try {
+                const response = await apiClient.post<LikeResponseDto>(
+                    `/profiles/${profileId}/like`
+                )
+                if (response.data.match) {
+                    setIsMatch(true)
+                } else {
+                    fetchNextProfile()
+                }
+            } catch (_err: unknown) {
+                console.error(_err)
+                setError('An error occurred while liking the profile.')
             }
-        } catch (_err: unknown) {
-            console.error(_err)
-            setError('An error occurred while liking the profile.')
-        }
-    }
+        },
+        [fetchNextProfile]
+    )
 
-    const dislikeProfile = async (profileId: string) => {
-        try {
-            await apiClient.post(`/profiles/${profileId}/dislike`)
-            fetchNextProfile()
-        } catch (_err: unknown) {
-            console.error(_err)
-            setError('An error occurred while disliking the profile.')
-        }
-    }
+    // Wrap `dislikeProfile` in `useCallback` with the same dependency.
+    const dislikeProfile = useCallback(
+        async (profileId: string) => {
+            try {
+                await apiClient.post(`/profiles/${profileId}/dislike`)
+                fetchNextProfile()
+            } catch (_err: unknown) {
+                console.error(_err)
+                setError('An error occurred while disliking the profile.')
+            }
+        },
+        [fetchNextProfile]
+    )
 
-    const closeMatchDialog = () => {
+    // Wrap `closeMatchDialog` in `useCallback` with the same dependency.
+    const closeMatchDialog = useCallback(() => {
         setIsMatch(false)
         fetchNextProfile()
-    }
+    }, [fetchNextProfile])
 
     return {
         profile,
