@@ -50,7 +50,7 @@ It features a complete local development environment using Mock Service Worker (
     ```
     Now, open the `.env` file and set the required variables, such as the API URL.
     ```env
-    VITE_API_BASE_URL=http://localhost:3001/api
+    VITE_API_URL=http://localhost:3001/api
     ```
 
 ### Running in Development Mode (with Mock API)
@@ -121,7 +121,7 @@ Fetches the next available user profile. Returns a 404 Not Found when no more pr
         "id": "a1b2c3d4",
         "name": "Sarah",
         "age": 21,
-        "imageUrl": "[https://example.com/images/sarah.jpg](https://example.com/images/sarah.jpg)"
+        "imageUrl": "https://example.com/images/sarah.jpg"
     }
     ```
 - **Error Response (404 Not Found):**

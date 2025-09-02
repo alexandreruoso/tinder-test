@@ -34,10 +34,13 @@ export const handlers = [
 
         if (currentIndex >= profiles.length) {
             // If we've run out of profiles, return a 404
-            return new HttpResponse(null, {
-                status: 404,
-                statusText: 'No more profiles',
-            })
+            return new HttpResponse(
+                JSON.stringify({ message: 'No more profiles available' }),
+                {
+                    status: 404,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            )
         }
 
         const profile = profiles[currentIndex]
