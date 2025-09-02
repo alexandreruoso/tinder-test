@@ -11,8 +11,8 @@ It features a complete local development environment using Mock Service Worker (
 - Fully Tested:
     - 100% Unit Test Coverage with Vitest & React Testing Library.
 - Component Library: All UI components are documented and viewable in Storybook.
-- Production Ready: Includes a Dockerfile for building a lightweight, production-ready
-- Nginx container.
+- Production Ready: Includes a secure, multi-stage Dockerfile with a non-root user for building a lightweight Nginx container.
+- Performance Optimized: Features code-splitting and responsive image optimization using `srcSet`.
 - View user profiles one by one.
 - "Like" or "Dislike" a profile.
 - Receive a "match" notification for mutual likes.
@@ -50,7 +50,9 @@ It features a complete local development environment using Mock Service Worker (
     ```
     Now, open the `.env` file and set the required variables, such as the API URL.
     ```env
-    VITE_API_URL=http://localhost:3001/api
+    VITE_APP_TITLE="Tinder Test Example"
+    VITE_API_URL="https://api.tinder-test-app.com/api"
+    VITE_IMAGE_BASE_URL=https://picsum.photos/id
     ```
 
 ### Running in Development Mode (with Mock API)
@@ -68,11 +70,11 @@ npm run dev
 docker build -t tinder-test-app .
 
 # 2. Run the container
-docker run -d -p 8080:80 --name tinder-test-container tinder-test-app
+docker run -d -p 8080:8080 --name tinder-test-container tinder-test-app
 
 ```
 
----
+## The application will be available at `http://localhost:8080`.
 
 ## 🧪 Running Tests
 
@@ -101,7 +103,7 @@ This project is configured to have 100% test coverage.
 npm run storybook
 ```
 
-The Storybook will be available at http://localhost:6006.
+The Storybook will be available at `http://localhost:6006`.
 
 ## 📝 Client-Backend REST API Contract
 
@@ -121,7 +123,7 @@ Fetches the next available user profile. Returns a 404 Not Found when no more pr
         "id": "a1b2c3d4",
         "name": "Sarah",
         "age": 21,
-        "imageId": "https://example.com/images/sarah.jpg"
+        "imageId": "21"
     }
     ```
 - **Error Response (404 Not Found):**
