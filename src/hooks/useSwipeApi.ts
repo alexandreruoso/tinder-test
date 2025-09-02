@@ -1,92 +1,90 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { isAxiosError } from 'axios'
 import apiClient from '../api/client'
 import type { ProfileDto, LikeResponseDto } from '../types/api'
 
+// This function contains the actual API logic for fetching the next profile.
+const fetchNextProfile = async () => {
+    const { data } = await apiClient.get<ProfileDto>('/profiles/next')
+    return data
+}
+
 /**
- * A custom hook to manage the state and API calls for the swiping functionality.
- *
- * @returns An object containing the current state of the swiping interface
- * and functions to interact with the API.
+ * A custom hook to manage the state and API calls for the swiping functionality,
+ * powered by TanStack Query.
  */
 export const useSwipeApi = () => {
-    const [profile, setProfile] = useState<ProfileDto | undefined>(undefined)
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string | undefined>(undefined)
-    const [isFinished, setIsFinished] = useState<boolean>(false)
+    const queryClient = useQueryClient()
     const [isMatch, setIsMatch] = useState<boolean>(false)
 
-    const fetchNextProfile = useCallback(async () => {
-        setIsLoading(true)
-        setError(undefined)
-        setIsMatch(false)
+    // useQuery handles fetching, caching, loading, and error states for us.
+    const {
+        data: profile,
+        isLoading,
+        error,
+        isError,
+    } = useQuery<ProfileDto, Error>({
+        queryKey: ['profile', 'next'],
+        queryFn: fetchNextProfile,
+        retry: (failureCount, error) => {
+            // Do not retry on 404, it's the "finished" state.
+            if (isAxiosError(error) && error.response?.status === 404) {
+                return false
+            }
+            // Retry on other errors up to 3 times.
+            return failureCount < 3
+        },
+    })
 
-        try {
-            const response = await apiClient.get<ProfileDto>('/profiles/next')
-            setProfile(response.data)
-        } catch (err: unknown) {
-            if (isAxiosError(err) && err.response?.status === 404) {
-                setIsFinished(true)
-                setProfile(undefined)
+    // useMutation handles POST/PUT/DELETE requests and their states.
+    const { mutate: likeProfile, isPending: isLiking } = useMutation({
+        mutationFn: (profileId: string) =>
+            apiClient.post<LikeResponseDto>(`/profiles/${profileId}/like`),
+        // Make the onSuccess handler async to await the invalidation.
+        onSuccess: async (response) => {
+            if (response.data.match) {
+                setIsMatch(true)
             } else {
-                setError('Failed to load profiles. Please try again.')
-            }
-        } finally {
-            setIsLoading(false)
-        }
-    }, [])
-
-    useEffect(() => {
-        // Automatically fetch the first profile on component mount.
-        fetchNextProfile()
-    }, [fetchNextProfile])
-
-    // Wrap `likeProfile` in `useCallback`. It depends on `fetchNextProfile`,
-    // so we add that to the dependency array. The function will only be
-    // re-created if `fetchNextProfile` changes (which it won't).
-    const likeProfile = useCallback(
-        async (profileId: string) => {
-            try {
-                const response = await apiClient.post<LikeResponseDto>(
-                    `/profiles/${profileId}/like`
-                )
-                if (response.data.match) {
-                    setIsMatch(true)
-                } else {
-                    fetchNextProfile()
-                }
-            } catch (_err: unknown) {
-                console.error(_err)
-                setError('An error occurred while liking the profile.')
+                // Awaiting this promise ensures the mutation stays pending
+                // until the new profile has been fetched.
+                await queryClient.invalidateQueries({
+                    queryKey: ['profile', 'next'],
+                })
             }
         },
-        [fetchNextProfile]
-    )
+    })
 
-    // Wrap `dislikeProfile` in `useCallback` with the same dependency.
-    const dislikeProfile = useCallback(
-        async (profileId: string) => {
-            try {
-                await apiClient.post(`/profiles/${profileId}/dislike`)
-                fetchNextProfile()
-            } catch (_err: unknown) {
-                console.error(_err)
-                setError('An error occurred while disliking the profile.')
-            }
+    const { mutate: dislikeProfile, isPending: isDisliking } = useMutation({
+        mutationFn: (profileId: string) =>
+            apiClient.post(`/profiles/${profileId}/dislike`),
+        // Make the onSuccess handler async to await the invalidation.
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['profile', 'next'],
+            })
         },
-        [fetchNextProfile]
-    )
+    })
 
-    // Wrap `closeMatchDialog` in `useCallback` with the same dependency.
-    const closeMatchDialog = useCallback(() => {
+    const closeMatchDialog = () => {
         setIsMatch(false)
-        fetchNextProfile()
-    }, [fetchNextProfile])
+        queryClient.invalidateQueries({ queryKey: ['profile', 'next'] })
+    }
+
+    // Determine the finished state based on the query result.
+    const isFinished =
+        !isLoading &&
+        isError &&
+        isAxiosError(error) &&
+        error.response?.status === 404
+
+    // The component is busy if it's loading a profile OR processing a like/dislike.
+    const isBusy = isLoading || isLiking || isDisliking
 
     return {
         profile,
-        isLoading,
-        error,
+        isLoading: isBusy,
+        error: isError && !isFinished ? 'Failed to load profiles.' : undefined,
         isFinished,
         isMatch,
         likeProfile,

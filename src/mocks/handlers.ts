@@ -25,10 +25,10 @@ const profiles = [
 let currentIndex = 0
 
 // --- API Route Handlers ---
-
+const baseUrl = import.meta.env.VITE_API_URL
 export const handlers = [
     // 1. Get the next profile
-    http.get('/api/profiles/next', async () => {
+    http.get(baseUrl + '/profiles/next', async () => {
         // Simulate network delay
         await delay(400)
 
@@ -48,7 +48,7 @@ export const handlers = [
     }),
 
     // 2. Like a profile
-    http.post('/api/profiles/:profileId/like', async () => {
+    http.post(baseUrl + '/profiles/:profileId/like', async () => {
         await delay(300)
 
         // Logic to decide if it's a match
@@ -60,7 +60,7 @@ export const handlers = [
     }),
 
     // 3. Dislike a profile
-    http.post('/api/profiles/:profileId/dislike', async () => {
+    http.post(baseUrl + '/profiles/:profileId/dislike', async () => {
         await delay(300)
 
         currentIndex++ // Move to the next profile
