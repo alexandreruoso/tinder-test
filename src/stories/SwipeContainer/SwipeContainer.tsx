@@ -1,10 +1,9 @@
-import { Box } from '@mui/material'
+import { Box, useMediaQuery, useTheme } from '@mui/material'
 import { Spinner } from '../Spinner/Spinner'
 import { AlertMessage } from '../AlertMessage/AlertMessage'
 import { ProfileCard } from '../ProfileCard/ProfileCard'
 import { SwipeActions } from '../SwipeAction/SwipeActions'
 
-// Defines the shape of a profile object
 export interface Profile {
     id: string
     name: string
@@ -13,25 +12,14 @@ export interface Profile {
 }
 
 export interface SwipeContainerProps {
-    /** The current profile to display. Can be undefined if loading, finished, or in an error state. */
     profile?: Profile
-    /** Function to call when the user likes the profile. */
     onLike: (profileId: string) => void
-    /** Function to call when the user dislikes the profile. */
     onDislike: (profileId: string) => void
-    /** True if the application is fetching the next profile. */
     isLoading?: boolean
-    /** An error message to display if fetching failed. */
     error?: string
-    /** True if there are no more profiles to show. */
     isFinished?: boolean
 }
 
-/**
- * A container organism that manages the main swiping interface.
- * It displays the current profile, action buttons, and handles
- * loading, error, and finished states.
- */
 export const SwipeContainer = ({
     profile,
     onLike,
@@ -40,6 +28,9 @@ export const SwipeContainer = ({
     error,
     isFinished = false,
 }: SwipeContainerProps) => {
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
     const handleLike = () => {
         if (profile) {
             onLike(profile.id)
@@ -85,16 +76,37 @@ export const SwipeContainer = ({
     return (
         <Box
             sx={{
-                width: 345,
-                height: 500,
+                width: {
+                    xs: '100%', // Mobile: Full width
+                    sm: '400px', // Tablet: 400px
+                    md: '450px', // Desktop: 450px (bigger, not smaller!)
+                    lg: '500px', // Large: 500px
+                },
+                maxWidth: {
+                    xs: '345px', // Mobile: Max 345px
+                    sm: '400px', // Tablet: Max 400px
+                    md: '450px', // Desktop: Max 450px
+                    lg: '500px', // Large: Max 500px
+                },
+                height: {
+                    xs: '450px',
+                    sm: '500px',
+                    md: '550px',
+                    lg: '600px',
+                    xl: '650px',
+                },
+                aspectRatio: '3/4',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                paddingBottom: 2,
+                paddingBottom: { xs: 1, sm: 2 },
                 border: '1px solid #ddd',
-                borderRadius: '8px',
-                gap: 2,
+                borderRadius: { xs: '8px', sm: '12px' },
+                gap: { xs: 1, sm: 2 },
+                margin: { xs: 'auto', sm: 0 },
+                padding: isMobile ? 1 : 0,
+                boxShadow: isMobile ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
             }}
         >
             {renderContent()}

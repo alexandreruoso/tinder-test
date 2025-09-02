@@ -4,6 +4,8 @@ import {
     DialogActions,
     Box,
     Typography,
+    useTheme,
+    useMediaQuery,
 } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import { ActionButton } from '../ActionButton/ActionButton'
@@ -14,16 +16,22 @@ export interface MatchDialogProps {
 }
 
 export const MatchDialog = ({ isOpen, onClose }: MatchDialogProps) => {
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
     return (
         <Dialog
             open={isOpen}
             onClose={onClose}
+            maxWidth={isMobile ? 'xs' : 'sm'}
+            fullWidth={isMobile}
             slotProps={{
                 paper: {
                     sx: {
                         backgroundColor: 'transparent',
                         boxShadow: 'none',
                         overflow: 'visible',
+                        margin: { xs: '16px', sm: '32px' },
                     },
                 },
             }}
@@ -36,12 +44,12 @@ export const MatchDialog = ({ isOpen, onClose }: MatchDialogProps) => {
                     padding: 0,
                 }}
             >
-                {/* Overlay a forma di stella con il testo "You got match!" */}
+                {/* Overlay star with "You got match!" */}
                 <Box
                     sx={{
                         position: 'relative',
-                        width: '300px',
-                        height: '300px',
+                        width: { xs: '250px', sm: '300px' },
+                        height: { xs: '250px', sm: '300px' },
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -53,7 +61,7 @@ export const MatchDialog = ({ isOpen, onClose }: MatchDialogProps) => {
                     }}
                 >
                     <Typography
-                        variant="h6"
+                        variant={isMobile ? 'body1' : 'h6'}
                         component="p"
                         sx={{ fontWeight: 'bold' }}
                     >
@@ -63,12 +71,18 @@ export const MatchDialog = ({ isOpen, onClose }: MatchDialogProps) => {
                     </Typography>
                 </Box>
             </DialogContent>
-            <DialogActions sx={{ justifyContent: 'center', padding: '16px' }}>
+            <DialogActions
+                sx={{
+                    justifyContent: 'center',
+                    padding: { xs: '12px', sm: '16px' },
+                }}
+            >
                 <ActionButton
                     label="Okay"
                     onClick={onClose}
                     IconComponent={CheckCircleOutlineIcon}
                     color="success"
+                    size={isMobile ? 'medium' : 'large'}
                 />
             </DialogActions>
         </Dialog>

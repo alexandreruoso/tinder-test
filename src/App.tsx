@@ -1,13 +1,11 @@
 import { CssBaseline, Box, Typography } from '@mui/material'
 import { SwipePage } from './pages/SwipePage'
+import { ThemeProvider } from '@mui/material/styles'
+import { theme } from './theme'
 
-/**
- * The root component of the application.
- * It centers a portrait-oriented "app frame" in the viewport.
- */
 function App() {
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
             {/* Viewport container to center the app frame */}
             <Box
@@ -18,7 +16,6 @@ function App() {
                     width: '100vw',
                 }}
             >
-                {' '}
                 {/* visually hidden header to the page */}
                 <Typography
                     variant="h1"
@@ -28,7 +25,7 @@ function App() {
                 </Typography>
                 <SwipePage />
             </Box>
-        </>
+        </ThemeProvider>
     )
 }
 

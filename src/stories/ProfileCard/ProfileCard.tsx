@@ -9,21 +9,21 @@ export interface ProfileData {
 }
 
 export interface ProfileCardProps {
-    /**
-     * The profile data object to display.
-     */
     profile: ProfileData
 }
 
-/**
- * An organism component that displays a complete user profile card,
- * including their picture, name, and age.
- */
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
     const { name, age, imageUrl } = profile
 
     return (
-        <Card sx={{ width: 345, height: 500, position: 'relative' }}>
+        <Card
+            sx={{
+                width: '100%',
+                height: '100%',
+                position: 'relative',
+                borderRadius: { xs: '8px', sm: '12px' },
+            }}
+        >
             <Avatar imageUrl={imageUrl} altText={`Profile of ${name}`} />
             <Box
                 sx={{
@@ -34,8 +34,8 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
                     color: 'white',
                     background:
                         'linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent)',
-                    padding: '16px',
-                    boxSizing: 'border-box', // Ensures padding is included in the element's total width and height
+                    padding: { xs: '12px', sm: '16px' },
+                    boxSizing: 'border-box',
                 }}
             >
                 <ProfileInfo name={name} age={age} />

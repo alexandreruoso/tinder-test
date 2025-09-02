@@ -1,40 +1,39 @@
-import { Stack } from '@mui/material'
+import { Stack, useMediaQuery, useTheme } from '@mui/material'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { ActionButton } from '../ActionButton/ActionButton'
 
 export interface SwipeActionsProps {
-    /**
-     * Function to call when the Like button is clicked.
-     */
     onLike: () => void
-    /**
-     * Function to call when the Dislike button is clicked.
-     */
     onDislike: () => void
-    /**
-     * Disables both buttons to prevent interaction.
-     * @default false
-     */
     disabled?: boolean
 }
 
-/**
- * A molecule component that groups the Like and Dislike action buttons.
- */
 export const SwipeActions = ({
     onLike,
     onDislike,
     disabled = false,
 }: SwipeActionsProps) => {
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
     return (
-        <Stack direction="row" spacing={2} justifyContent="center">
+        <Stack
+            direction="row"
+            spacing={{ xs: 1, sm: 2 }}
+            justifyContent="center"
+            sx={{
+                width: '100%',
+                padding: { xs: '0 16px', sm: '0 24px' },
+            }}
+        >
             <ActionButton
                 IconComponent={ThumbDownIcon}
                 color="error"
                 onClick={onDislike}
                 label="Dislike"
                 disabled={disabled}
+                size={isMobile ? 'medium' : 'large'}
             />
             <ActionButton
                 IconComponent={ThumbUpIcon}
@@ -42,6 +41,7 @@ export const SwipeActions = ({
                 onClick={onLike}
                 label="Like"
                 disabled={disabled}
+                size={isMobile ? 'medium' : 'large'}
             />
         </Stack>
     )
