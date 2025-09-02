@@ -51,13 +51,13 @@ It features a complete local development environment using Mock Service Worker (
     Now, open the `.env` file and set the required variables, such as the API URL.
     ```env
     VITE_APP_TITLE="Tinder Test Example"
-    VITE_API_URL="https://api.tinder-test-app.com/api"
+    VITE_API_URL="/api"
     VITE_IMAGE_BASE_URL=https://picsum.photos/id
     ```
 
 ### Running in Development Mode (with Mock API)
 
-This command starts the Vite development server with MSW enabled. The application will be available at http://localhost:5173.
+This command starts the Vite development server with MSW enabled. The application will be available at `http://localhost:5173`.
 
 ```bash
 npm run dev
@@ -74,7 +74,7 @@ docker run -d -p 8080:8080 --name tinder-test-container tinder-test-app
 
 ```
 
-## The application will be available at `http://localhost:8080`.
+The application will be available at `http://localhost:8080`.
 
 ## 🧪 Running Tests
 
