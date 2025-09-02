@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import { SwipePage } from './pages/SwipePage'
 import { ThemeProvider } from '@mui/material/styles'
 import { theme } from './theme'
+import ErrorBoundary from './stories/BoundaryError/BoundaryError'
 
 function App() {
     return (
@@ -25,7 +26,9 @@ function App() {
                 >
                     Tinder Clone
                 </Typography>
-                <SwipePage />
+                <ErrorBoundary>
+                    <SwipePage />
+                </ErrorBoundary>
             </Box>
         </ThemeProvider>
     )
