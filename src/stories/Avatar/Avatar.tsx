@@ -1,7 +1,25 @@
+import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Skeleton from '@mui/material/Skeleton'
-import { useImageStatus } from '../../hooks/useImageStatus' // Import our new hook
+import { useImageStatus } from '../../hooks/useImageStatus'
+
+const StyledAvatarContainer = styled(Box)({
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#e0e0e0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: '4px',
+})
+
+const StyledImage = styled('img')({
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+})
 
 export interface AvatarProps {
     imageUrl?: string
@@ -12,19 +30,7 @@ export const Avatar = ({ imageUrl, altText }: AvatarProps) => {
     const status = useImageStatus(imageUrl)
 
     return (
-        <Box
-            sx={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#e0e0e0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-                borderRadius: '4px',
-            }}
-        >
-            {/* The rendering logic is now extremely clear and easy to read */}
+        <StyledAvatarContainer>
             {status === 'loading' && (
                 <Skeleton variant="rectangular" width="100%" height="100%" />
             )}
@@ -36,18 +42,8 @@ export const Avatar = ({ imageUrl, altText }: AvatarProps) => {
             )}
 
             {status === 'loaded' && (
-                <Box
-                    component="img"
-                    src={imageUrl} // We know imageUrl is defined here because status is 'loaded'
-                    alt={altText}
-                    sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                    }}
-                    loading="lazy"
-                />
+                <StyledImage src={imageUrl} alt={altText} loading="lazy" />
             )}
-        </Box>
+        </StyledAvatarContainer>
     )
 }

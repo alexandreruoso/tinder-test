@@ -1,29 +1,32 @@
 import { memo } from 'react'
+import { styled } from '@mui/material/styles'
 import Stack from '@mui/material/Stack'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { ActionButton } from '../ActionButton/ActionButton'
 
+const StyledActionsStack = styled(Stack)(({ theme }) => ({
+    width: '100%',
+    padding: `0 ${theme.spacing(2)}`,
+    [theme.breakpoints.up('sm')]: {
+        padding: `0 ${theme.spacing(3)}`,
+    },
+}))
+
 export interface SwipeActionsProps {
     onLike: () => void
     onDislike: () => void
     disabled?: boolean
-    isMobile: boolean // Receives isMobile as a prop
+    isMobile: boolean
 }
 
-// Wrapped in React.memo and simplified to just receive props.
 export const SwipeActions = memo(
     ({ onLike, onDislike, disabled = false, isMobile }: SwipeActionsProps) => {
-        // No more useTheme or useMediaQuery hooks here.
         return (
-            <Stack
+            <StyledActionsStack
                 direction="row"
                 spacing={{ xs: 1, sm: 2 }}
                 justifyContent="center"
-                sx={{
-                    width: '100%',
-                    padding: { xs: '0 16px', sm: '0 24px' },
-                }}
             >
                 <ActionButton
                     IconComponent={ThumbDownIcon}
@@ -31,7 +34,6 @@ export const SwipeActions = memo(
                     onClick={onDislike}
                     label="Dislike"
                     disabled={disabled}
-                    // The button size is determined by the isMobile prop.
                     size={isMobile ? 'medium' : 'large'}
                 />
                 <ActionButton
@@ -42,7 +44,9 @@ export const SwipeActions = memo(
                     disabled={disabled}
                     size={isMobile ? 'medium' : 'large'}
                 />
-            </Stack>
+            </StyledActionsStack>
         )
     }
 )
+
+SwipeActions.displayName = 'SwipeActions'
