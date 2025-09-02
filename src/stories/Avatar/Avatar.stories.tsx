@@ -14,7 +14,7 @@ const meta: Meta<typeof Avatar> = {
         ),
     ],
     argTypes: {
-        imageUrl: {
+        imageId: {
             control: 'text',
             description: 'URL for the profile picture',
         },
@@ -30,14 +30,14 @@ type Story = StoryObj<typeof meta>
 
 export const WithImage: Story = {
     args: {
-        imageUrl: 'https://i.pravatar.cc/400?u=sarah',
+        imageId: '54',
         altText: 'A portrait of Sarah',
     },
 }
 
 export const Fallback: Story = {
     args: {
-        imageUrl: undefined,
+        imageId: undefined,
         altText: 'No image available',
     },
 }

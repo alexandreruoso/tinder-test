@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from 'storybook/test'
-import { SwipeContainer, type Profile } from './SwipeContainer'
+import { SwipeContainer } from './SwipeContainer'
+import type { ProfileDto } from '../../types/api'
 
-const mockProfile: Profile = {
+const mockProfile: ProfileDto = {
     id: '1',
     name: 'Jessica',
     age: 23,
-    imageUrl: 'https://i.pravatar.cc/400?u=women',
+    imageId: '01',
 }
 
 const meta: Meta<typeof SwipeContainer> = {

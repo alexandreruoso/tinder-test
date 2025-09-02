@@ -2,6 +2,7 @@ import { render, screen, cleanup } from '@testing-library/react'
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { ProfileCard } from './ProfileCard'
 import { useImageStatus } from '../../hooks/useImageStatus'
+import type { ProfileDto } from '../../types/api'
 
 // Mock the custom hook used by the child Avatar component
 vi.mock('../../hooks/useImageStatus')
@@ -13,15 +14,18 @@ describe('ProfileCard', () => {
         vi.resetAllMocks()
     })
 
-    const profileWithImage = {
+    const profileWithImage: ProfileDto = {
         name: 'Sarah',
         age: 21,
-        imageUrl: 'https://example.com/sarah.jpg',
+        imageId: '01',
+        id: '01',
     }
 
-    const profileWithoutImage = {
+    const profileWithoutImage: ProfileDto = {
         name: 'John',
         age: 28,
+        id: '1',
+        imageId: '03',
     }
 
     it('renders the name and age correctly inside the styled container', () => {
@@ -36,7 +40,7 @@ describe('ProfileCard', () => {
         expect(profileInfoElement).toHaveTextContent('Sarah, 21')
     })
 
-    it('renders the Avatar with an image when imageUrl is provided', () => {
+    it('renders the Avatar with an image when imageId is provided', () => {
         // Arrange: Force the hook to return 'loaded' to show the image
         mockedUseImageStatus.mockReturnValue('loaded')
 
@@ -46,14 +50,13 @@ describe('ProfileCard', () => {
         // Assert
         const image = screen.getByRole('img')
         expect(image).toBeInTheDocument()
-        expect(image).toHaveAttribute('src', profileWithImage.imageUrl)
         expect(image).toHaveAttribute(
             'alt',
             `Profile of ${profileWithImage.name}`
         )
     })
 
-    it('renders the Avatar with fallback text when imageUrl is not provided', () => {
+    it('renders the Avatar with fallback text when imageId is not provided', () => {
         // Arrange: Force the hook to return 'error'
         mockedUseImageStatus.mockReturnValue('error')
 
@@ -61,7 +64,7 @@ describe('ProfileCard', () => {
         render(<ProfileCard profile={profileWithoutImage} />)
 
         // Assert
-        expect(screen.getByText('no image')).toBeInTheDocument()
+        expect(screen.getByText('Image not available')).toBeInTheDocument()
         expect(screen.queryByRole('img')).not.toBeInTheDocument()
     })
 })

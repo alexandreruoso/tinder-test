@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ProfileCard } from './ProfileCard'
+import { Box } from '@mui/material'
 
 const meta: Meta<typeof ProfileCard> = {
     title: 'Organisms/ProfileCard',
@@ -10,6 +11,13 @@ const meta: Meta<typeof ProfileCard> = {
             control: 'object',
         },
     },
+    decorators: [
+        (Story) => (
+            <Box sx={{ width: '300px', height: '400px' }}>
+                <Story />
+            </Box>
+        ),
+    ],
 }
 
 export default meta
@@ -18,9 +26,10 @@ type Story = StoryObj<typeof meta>
 export const WithImage: Story = {
     args: {
         profile: {
+            id: '1',
             name: 'Sarah',
             age: 21,
-            imageUrl: 'https://i.pravatar.cc/400?u=sarah',
+            imageId: '35',
         },
     },
 }
@@ -28,9 +37,10 @@ export const WithImage: Story = {
 export const WithoutImage: Story = {
     args: {
         profile: {
+            id: '2',
             name: 'John',
             age: 28,
-            imageUrl: undefined,
+            imageId: undefined,
         },
     },
 }
@@ -38,9 +48,10 @@ export const WithoutImage: Story = {
 export const WithLongName: Story = {
     args: {
         profile: {
+            id: '3',
             name: 'Maximilian BartholomewdrewLandersonCreutzfeldtJacob',
             age: 32,
-            imageUrl: 'https://i.pravatar.cc/400?u=max',
+            imageId: '44',
         },
     },
 }

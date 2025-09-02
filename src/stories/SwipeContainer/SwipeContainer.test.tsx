@@ -1,13 +1,14 @@
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { SwipeContainer, type Profile } from './SwipeContainer'
+import { SwipeContainer } from './SwipeContainer'
+import type { ProfileDto } from '../../types/api'
 
-const mockProfile: Profile = {
+const mockProfile: ProfileDto = {
     id: 'user-123',
     name: 'Alex',
     age: 28,
-    imageUrl: 'https://example.com/alex.jpg',
+    imageId: '25',
 }
 
 describe('SwipeContainer', () => {

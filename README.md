@@ -121,7 +121,7 @@ Fetches the next available user profile. Returns a 404 Not Found when no more pr
         "id": "a1b2c3d4",
         "name": "Sarah",
         "age": 21,
-        "imageUrl": "https://example.com/images/sarah.jpg"
+        "imageId": "https://example.com/images/sarah.jpg"
     }
     ```
 - **Error Response (404 Not Found):**

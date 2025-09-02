@@ -26,8 +26,21 @@ export interface AvatarProps {
     altText: string
 }
 
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
+
 export const Avatar = ({ imageId, altText }: AvatarProps) => {
-    const status = useImageStatus(imageId)
+    // Construct the default image source (a medium size)
+    const defaultSrc = imageId
+        ? `${IMAGE_BASE_URL}/${imageId}/400/600`
+        : undefined
+    const status = useImageStatus(defaultSrc)
+
+    // Create the source set for responsive images
+    const srcSet = imageId
+        ? `${IMAGE_BASE_URL}/${imageId}/400/600 400w, 
+           ${IMAGE_BASE_URL}/${imageId}/500/750 500w, 
+           ${IMAGE_BASE_URL}/${imageId}/800/1200 800w`
+        : undefined
 
     return (
         <StyledAvatarContainer>
@@ -37,12 +50,18 @@ export const Avatar = ({ imageId, altText }: AvatarProps) => {
 
             {status === 'error' && (
                 <Typography variant="caption" color="textSecondary">
-                    no image
+                    Image not available
                 </Typography>
             )}
 
-            {status === 'loaded' && (
-                <StyledImage src={imageId} alt={altText} loading="lazy" />
+            {status === 'loaded' && imageId && (
+                <StyledImage
+                    src={defaultSrc}
+                    srcSet={srcSet}
+                    sizes="(max-width: 600px) 400px, 500px"
+                    alt={altText}
+                    loading="lazy"
+                />
             )}
         </StyledAvatarContainer>
     )
