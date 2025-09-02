@@ -27,6 +27,7 @@ export const ActionButton = ({
             onClick={onClick}
             disabled={disabled}
             startIcon={<IconComponent />}
+            sx={{ flex: 1 }}
         >
             {label}
         </Button>

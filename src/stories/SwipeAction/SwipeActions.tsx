@@ -11,6 +11,10 @@ const StyledActionsStack = styled(Stack)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
         padding: `0 ${theme.spacing(3)}`,
     },
+    gap: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+        gap: theme.spacing(6),
+    },
 }))
 
 export interface SwipeActionsProps {
