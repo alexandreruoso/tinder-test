@@ -3,6 +3,8 @@ import { SwipeContainer } from '../stories/SwipeContainer/SwipeContainer'
 import { MatchDialog } from '../stories/MatchDialog/MatchDialog'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export const SwipePage = () => {
     const {
@@ -15,6 +17,10 @@ export const SwipePage = () => {
         dislikeProfile,
         closeMatchDialog,
     } = useSwipeApi()
+
+    // The hook is now called once in the parent component.
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
     return (
         <Container maxWidth="sm">
@@ -39,8 +45,13 @@ export const SwipePage = () => {
                     isFinished={isFinished}
                     onLike={likeProfile}
                     onDislike={dislikeProfile}
+                    isMobile={isMobile} // Pass the `isMobile` boolean as a prop.
                 />
-                <MatchDialog isOpen={isMatch} onClose={closeMatchDialog} />
+                <MatchDialog
+                    isOpen={isMatch}
+                    onClose={closeMatchDialog}
+                    isMobile={isMobile} // Pass the prop here as well.
+                />
             </Box>
         </Container>
     )

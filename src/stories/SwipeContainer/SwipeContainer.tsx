@@ -1,7 +1,5 @@
-import { memo } from 'react'
-import { useTheme } from '@mui/material/styles'
+import { memo, useCallback } from 'react'
 import Box from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import { Spinner } from '../Spinner/Spinner'
 import { AlertMessage } from '../AlertMessage/AlertMessage'
 import { ProfileCard } from '../ProfileCard/ProfileCard'
@@ -21,10 +19,9 @@ export interface SwipeContainerProps {
     isLoading?: boolean
     error?: string
     isFinished?: boolean
+    isMobile: boolean // Receives isMobile as a prop
 }
 
-// Memoizing the container prevents it from re-rendering when the parent
-// (`SwipePage`) re-renders due to state changes like `isMatch`.
 export const SwipeContainer = memo(
     ({
         profile,
@@ -33,21 +30,20 @@ export const SwipeContainer = memo(
         isLoading = false,
         error,
         isFinished = false,
+        isMobile,
     }: SwipeContainerProps) => {
-        const theme = useTheme()
-        const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-
-        const handleLike = () => {
+        // Functions are memoized with useCallback
+        const handleLike = useCallback(() => {
             if (profile) {
                 onLike(profile.id)
             }
-        }
+        }, [profile, onLike])
 
-        const handleDislike = () => {
+        const handleDislike = useCallback(() => {
             if (profile) {
                 onDislike(profile.id)
             }
-        }
+        }, [profile, onDislike])
 
         const renderContent = () => {
             if (isLoading) {
@@ -68,31 +64,33 @@ export const SwipeContainer = memo(
                 return (
                     <>
                         <ProfileCard profile={profile} />
+                        {/* The isMobile prop is passed down to SwipeActions */}
                         <SwipeActions
                             onLike={handleLike}
                             onDislike={handleDislike}
                             disabled={isLoading}
+                            isMobile={isMobile}
                         />
                     </>
                 )
             }
-            return null // Should not happen in normal flow
+            return null
         }
 
         return (
             <Box
                 sx={{
                     width: {
-                        xs: '100%', // Mobile: Full width
-                        sm: '400px', // Tablet: 400px
-                        md: '450px', // Desktop: 450px (bigger, not smaller!)
-                        lg: '500px', // Large: 500px
+                        xs: '100%',
+                        sm: '400px',
+                        md: '450px',
+                        lg: '500px',
                     },
                     maxWidth: {
-                        xs: '345px', // Mobile: Max 345px
-                        sm: '400px', // Tablet: Max 400px
-                        md: '450px', // Desktop: Max 450px
-                        lg: '500px', // Large: Max 500px
+                        xs: '345px',
+                        sm: '400px',
+                        md: '450px',
+                        lg: '500px',
                     },
                     height: {
                         xs: '450px',
@@ -111,6 +109,7 @@ export const SwipeContainer = memo(
                     borderRadius: { xs: '8px', sm: '12px' },
                     gap: { xs: 1, sm: 2 },
                     margin: { xs: 'auto', sm: 0 },
+                    // Style is now directly driven by the isMobile prop
                     padding: isMobile ? 1 : 0,
                     boxShadow: isMobile ? '0 2px 8px rgba(0,0,0,0.1)' : 'none',
                 }}

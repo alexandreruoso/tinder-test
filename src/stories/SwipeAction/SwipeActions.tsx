@@ -1,7 +1,5 @@
 import { memo } from 'react'
 import Stack from '@mui/material/Stack'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
 import { ActionButton } from '../ActionButton/ActionButton'
@@ -10,14 +8,13 @@ export interface SwipeActionsProps {
     onLike: () => void
     onDislike: () => void
     disabled?: boolean
+    isMobile: boolean // Receives isMobile as a prop
 }
 
-// This component will now only re-render if its function or disabled props change.
+// Wrapped in React.memo and simplified to just receive props.
 export const SwipeActions = memo(
-    ({ onLike, onDislike, disabled = false }: SwipeActionsProps) => {
-        const theme = useTheme()
-        const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-
+    ({ onLike, onDislike, disabled = false, isMobile }: SwipeActionsProps) => {
+        // No more useTheme or useMediaQuery hooks here.
         return (
             <Stack
                 direction="row"
@@ -34,6 +31,7 @@ export const SwipeActions = memo(
                     onClick={onDislike}
                     label="Dislike"
                     disabled={disabled}
+                    // The button size is determined by the isMobile prop.
                     size={isMobile ? 'medium' : 'large'}
                 />
                 <ActionButton

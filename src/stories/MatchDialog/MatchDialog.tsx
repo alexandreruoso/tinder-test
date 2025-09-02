@@ -3,19 +3,21 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import { ActionButton } from '../ActionButton/ActionButton'
-import { useTheme } from '@mui/material/styles'
 
 export interface MatchDialogProps {
     isOpen: boolean
     onClose: () => void
+    isMobile: boolean // Add `isMobile` to props.
 }
 
-export const MatchDialog = ({ isOpen, onClose }: MatchDialogProps) => {
-    const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+export const MatchDialog = ({
+    isOpen,
+    onClose,
+    isMobile,
+}: MatchDialogProps) => {
+    // The `useTheme` and `useMediaQuery` hooks have been removed.
 
     return (
         <Dialog
